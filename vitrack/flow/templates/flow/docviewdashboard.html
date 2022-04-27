@@ -1,0 +1,944 @@
+<!doctype html>
+<html>
+<head>
+    <title>Metrics Dashboard</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <!--        <link rel="stylesheet" href="test.css">-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <style>
+          .body{
+            overflow: hidden;
+          }
+          .row-bottom-margin {
+            margin-bottom:0px;
+            margin-top:0px;
+          }
+          .spacing{
+            margin-top: 10px;
+            margin-bottom: 0px;
+            margin-left: 10px;
+            margin-right: 10px;
+          }
+          :root {
+	--dk-gray-100: #F3F4F6;
+	--dk-gray-200: #E5E7EB;
+	--dk-gray-300: #D1D5DB;
+	--dk-gray-400: #9CA3AF;
+	--dk-gray-500: #6B7280;
+	--dk-gray-600: #4B5563;
+	--dk-gray-700: #374151;
+	--dk-gray-800: #1F2937;
+	--dk-gray-900: #111827;
+	--dk-dark-bg: #313348;
+	--dk-darker-bg: #2a2b3d;
+	--navbar-bg-color: #6f6486;
+	--sidebar-bg-color: #252636;
+	--sidebar-width: 250px;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Inter', sans-serif;
+	background-color: var(--dk-darker-bg);
+	font-size: .925rem;
+}
+
+#wrapper {
+	margin-left: var(--sidebar-width);
+	transition: all .3s ease-in-out;
+}
+
+#wrapper.fullwidth {
+	margin-left: 0;
+}
+
+
+
+/** --------------------------------
+ -- Sidebar
+-------------------------------- */
+.sidebar {
+	background-color: var(--sidebar-bg-color);
+	width: var(--sidebar-width);
+	transition: all .3s ease-in-out;
+	transform: translateX(0);
+	z-index: 9999999
+}
+
+.sidebar .close-aside {
+	position: absolute;
+	top: 7px;
+	right: 7px;
+	cursor: pointer;
+	color: #EEE;
+}
+
+.sidebar .sidebar-header {
+	border-bottom: 1px solid #2a2b3c
+}
+
+.sidebar .sidebar-header h5 a {
+	color: var(--dk-gray-300)
+}
+
+.sidebar .sidebar-header p {
+	color: var(--dk-gray-400);
+	font-size: .825rem;
+}
+
+.sidebar .search .form-control ~ i {
+	color: #2b2f3a;
+	right: 40px;
+	top: 22px;
+}
+
+.sidebar > ul > li {
+	padding: .7rem 1.75rem;
+}
+
+.sidebar ul > li > a {
+	color: var(--dk-gray-400);
+	text-decoration: none;
+}
+
+/* Start numbers */
+.sidebar ul > li > a > .num {
+	line-height: 0;
+	border-radius: 3px;
+	font-size: 14px;
+	padding: 0px 5px
+}
+
+.sidebar ul > li > i {
+	font-size: 18px;
+	margin-right: .7rem;
+	color: var(--dk-gray-500);
+}
+
+.sidebar ul > li.has-dropdown > a:after {
+	content: '\eb3a';
+	font-family: unicons-line;
+	font-size: 1rem;
+	line-height: 1.8;
+	float: right;
+	color: var(--dk-gray-500);
+	transition: all .3s ease-in-out;
+}
+
+.sidebar ul .opened > a:after {
+	transform: rotate(-90deg);
+}
+
+/* Start dropdown menu */
+.sidebar ul .sidebar-dropdown {
+	padding-top: 10px;
+	padding-left: 30px;
+	display: none;
+}
+.sidebar ul .sidebar-dropdown.active {
+	display: block;
+}
+
+.sidebar ul .sidebar-dropdown > li > a {
+  font-size: .85rem;
+	padding: .5rem 0;
+	display: block;
+}
+/* End dropdown menu */
+
+.show-sidebar {
+	transform: translateX(-270px);
+}
+
+@media (max-width: 767px) {
+	.sidebar ul > li {
+		padding-top: 12px;
+		padding-bottom: 12px;
+	}
+
+	.sidebar .search {
+		padding: 10px 0 10px 30px
+	}
+}
+
+
+
+
+/** --------------------------------
+ -- welcome
+-------------------------------- */
+.welcome {
+	color: var(--dk-gray-300);
+}
+
+.welcome .content {
+	background-color: var(--dk-dark-bg);
+}
+
+.welcome p {
+	color: var(--dk-gray-400);
+}
+
+
+
+
+/** --------------------------------
+ -- Statistics
+-------------------------------- */
+.statistics {
+	color: var(--dk-gray-200);
+}
+
+.statistics .box {
+	background-color: var(--dk-dark-bg);
+}
+
+.statistics .box i {
+	width: 60px;
+	height: 60px;
+	line-height: 60px;
+}
+
+.statistics .box p {
+	color: var(--dk-gray-400);
+}
+
+
+
+
+/** --------------------------------
+ -- Charts
+-------------------------------- */
+.charts .chart-container {
+	background-color: var(--dk-dark-bg);
+}
+
+.charts .chart-container h3 {
+	color: var(--dk-gray-400)
+}
+
+
+
+
+/** --------------------------------
+ -- users
+-------------------------------- */
+.admins .box .admin {
+	background-color: var(--dk-dark-bg);
+}
+
+.admins .box h3 {
+	color: var(--dk-gray-300);
+}
+
+.admins .box p {
+	color: var(--dk-gray-400)
+}
+
+
+
+
+/** --------------------------------
+ -- statis
+-------------------------------- */
+.statis {
+	color: var(--dk-gray-100);
+}
+
+.statis .box {
+	position: relative;
+	overflow: hidden;
+	border-radius: 3px;
+}
+
+.statis .box h3:after {
+	content: "";
+	height: 2px;
+	width: 70%;
+
+	background-color: rgba(255, 255, 255, 0.12);
+	display: block;
+	margin-top: 10px;
+}
+
+.statis .box i {
+	position: absolute;
+	height: 70px;
+	width: 70px;
+	font-size: 22px;
+	padding: 15px;
+	top: -25px;
+	left: -25px;
+	background-color: rgba(255, 255, 255, 0.15);
+	line-height: 60px;
+	text-align: right;
+	border-radius: 50%;
+}
+
+
+
+
+
+.main-color {
+	color: #ffc107
+}
+
+/** --------------------------------
+ -- Please don't do that in real-world projects!
+ -- overwrite Bootstrap variables instead.
+-------------------------------- */
+
+.navbar {
+	background-color: var(--navbar-bg-color) !important;
+	border: none !important;
+}
+.navbar .dropdown-menu {
+	right: auto !important;
+	left: 0 !important;
+}
+.navbar .navbar-nav>li>a {
+	color: #EEE !important;
+	line-height: 55px !important;
+	padding: 0 10px !important;
+}
+.navbar .navbar-brand {color:#FFF !important}
+.navbar .navbar-nav>li>a:focus,
+.navbar .navbar-nav>li>a:hover {color: #EEE !important}
+
+.navbar .navbar-nav>.open>a,
+.navbar .navbar-nav>.open>a:focus,
+.navbar .navbar-nav>.open>a:hover {background-color: transparent !important; color: #FFF !important}
+
+.navbar .navbar-brand {line-height: 55px !important; padding: 0 !important}
+.navbar .navbar-brand:focus,
+.navbar .navbar-brand:hover {color: #FFF !important}
+.navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {margin: 0 !important}
+@media (max-width: 767px) {
+	.navbar>.container-fluid .navbar-brand {
+		margin-left: 15px !important;
+	}
+	.navbar .navbar-nav>li>a {
+		padding-left: 0 !important;
+	}
+	.navbar-nav {
+		margin: 0 !important;
+	}
+	.navbar .navbar-collapse,
+	.navbar .navbar-form {
+		border: none !important;
+	}
+}
+
+.navbar .navbar-nav>li>a {
+	float: left !important;
+}
+.navbar .navbar-nav>li>a>span:not(.caret) {
+	background-color: #e74c3c !important;
+	border-radius: 50% !important;
+	height: 25px !important;
+	width: 25px !important;
+	padding: 2px !important;
+	font-size: 11px !important;
+	position: relative !important;
+	top: -10px !important;
+	right: 5px !important
+}
+.dropdown-menu>li>a {
+	padding-top: 5px !important;
+	padding-right: 5px !important;
+}
+.navbar .navbar-nav>li>a>i {
+	font-size: 18px !important;
+}
+
+
+
+
+/* Start media query */
+
+@media (max-width: 767px) {
+	#wrapper {
+		margin: 0 !important
+	}
+	.statistics .box {
+		margin-bottom: 25px !important;
+	}
+	.navbar .navbar-nav .open .dropdown-menu>li>a {
+		color: #CCC !important
+	}
+	.navbar .navbar-nav .open .dropdown-menu>li>a:hover {
+		color: #FFF !important
+	}
+	.navbar .navbar-toggle{
+		border:none !important;
+		color: #EEE !important;
+		font-size: 18px !important;
+	}
+	.navbar .navbar-toggle:focus, .navbar .navbar-toggle:hover {background-color: transparent !important}
+}
+
+
+::-webkit-scrollbar {
+	background: transparent;
+	width: 5px;
+	height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #3c3f58;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: rgba(0, 0, 0, 0.3);
+}
+.bg-cover {
+            width: 100%;
+            height: 695px;
+            /* background: url("https://source.unsplash.com/7JX0-bfiuxQ/1200x1200") no-repeat center; */
+            /* background-size: cover; */
+            object-fit: cover;
+        }
+        .bg-image {
+            filter: blur(8px);
+            -webkit-filter: blur(3px);
+        }
+        .bg-orange {
+            background-color: #da7253;
+        }
+        .center{
+    position:absolute;
+    height: X px;
+    width: Y px;
+    left:8%;
+    top:50%;
+    margin-top:- X/2 px;
+    margin-left:- Y/2 px;
+    }
+    .circle {
+    background: black;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}
+.tint{
+  filter: blur(3px) sepia(100%) saturate(500%) brightness(80%) hue-rotate(180deg);
+  background: rgba(0, 255, 255, 0.5);
+  width:718px;
+  height:675px;
+  opacity: 0.5;
+}
+ .text-block {
+            position: absolute;
+            bottom: 0;
+            background: rgb(212, 0, 0);
+            background: rgb(218,114,83,0.8);
+            color: #f1f1f1;
+            width: 100%;
+            padding: 20px;
+        }
+        .plus-image {
+            left: 45%;
+            top: 30%;
+            position: absolute;
+            margin-top: -25px;
+            margin-left: -25px;
+        }
+        .centered {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+          .dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #6F6486;
+  min-width: 100px;
+<!--  max-height: 100px;-->
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+  right: 10px;
+    left: auto;
+}
+.cropped1 {
+    width: 80px; /* width of container */
+    height: 80px; /* height of container */
+    object-fit: cover;
+}
+.cropped2 {
+    width: 55px; /* width of container */
+    height: 55px; /* height of container */
+    object-fit: cover;
+}
+#c1{
+   float:right;
+<!--   background:blue;-->
+}
+a {
+  color: white;
+  text-decoration:none;
+}
+div.one:hover {
+  opacity:80%
+}
+
+    </style>
+</head>
+<body style="background-color: #504a65; overflow: hidden;">
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-orange">
+        <div class="container-fluid">
+            <!-- <div class="container"> -->
+                <a class="navbar-brand" href="#">
+                  <img src='{% static "flow\icon_new.png" %}' alt="" width="50" height="50">
+                </a>
+              <!-- </div> -->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" style="font-size: large;" aria-current="page" href="">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" style="font-size: large;" href="/mypatient">My Patients</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" style="font-size: large;" href="/doctorprofile">Profile</a>
+              </li>
+              <!-- <li class="nav-item">
+                <a class="nav-link disabled">Disabled</a>
+              </li> -->
+            </ul>
+
+            <a class="navbar-brand mx-3" href="">
+                <div class="dropdown">
+                {% if pic != None %}
+                <img src = {{pic.url}} alt="Avatar" class="rounded-circle" style="width: 55px; height:55px"/>
+                {% else %}
+                {% if gender == "female" %}
+                <img
+                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                alt="Avatar"
+                class="rounded-circle" style="width: 65px;"
+              />
+                {% else %}
+                <img
+                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
+                alt="Avatar"
+                class="rounded-circle" style="width: 65px;"
+              />
+                {% endif %}
+                {% endif %}
+                    <div class="dropdown-content" >
+                  <ul style="list-style-type:none; ">
+                      <p style="color: white">{{request.user.first_name}} {{request.user.last_name}}<p>
+                      <li><strong><hr class="dropdown-divider"></strong></li>
+    <li><a class="dropdown-item" style="color: white" href="/doctorprofile">My Profile</a></li>
+    <li><a class="dropdown-item" style="color: white" href="#">Change Password</a></li>
+    <li><a class="dropdown-item button" style="color: white" href="/handleLogout/">Logout</a></li>
+  </ul>
+                   </div>
+</div>
+<!--                  <img src='{% static "flow\no_pic.png" %}' alt="avatar" class="rounded-circle" style="width: 65px;">-->
+
+                </a>
+          </div>
+        </div>
+      </nav>
+<div style="margin-top: auto;" class="spacing">
+    <div style="margin-top:5px" class=" row row-bottom-margin">
+        <div class="col-md-4">
+            <div class="box">
+                <div style="background-color: #313348; margin-bottom: 10px; height:90px;"
+                     class="admins admin d-flex align-items-center rounded-2 p-3">
+                    <div class="img">
+                        {% if upic != None %}
+                        <img class="img-fluid rounded-pill cropped1" width="80" height="75" src={{upic.url}}>
+                        {% else %}
+                        {% if ugender == "female" %}
+                        <img class="img-fluid rounded-pill cropped1" width="80" height="75"
+                             src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp">
+                        {% else %}
+                        <img class="img-fluid rounded-pill cropped1" width="80" height="75"
+                             src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp">
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                    <div class="ms-3">
+                        <h3 style="color:white" class="fs-5 mb-1">{{ufname}}
+                            {{ulname}}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- content Modal -->
+                <div class="modal fade" id="learnModal" tabindex="-1" aria-labelledby="learnModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="learnModalLabel" style="color:black;">What is EWS?</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" style="color:black; text-align:left;">
+                                EWS info content --
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+
+        <!-- ml content Modal -->
+                <div class="modal fade" id="mlModal" tabindex="-1" aria-labelledby="mlModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="mlModalLabel" style="color:black;">Machine Learning Model</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" style="color:black; text-align:left;">
+                                ML info content --
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+        <div class="col-xl-2 statis text-center row-bottom-margin one" data-bs-toggle="modal" data-bs-target="#learnModal">
+            <div style="height: 90px;" class="box bg-primary p-3">
+                <i class="uil-eye"></i>
+                {% if ewsflag == 0 %}
+                <h3 style="font-size:larger;">Not Configured</h3>
+                <p style="font-size: medium;" class="lead">EWS</p>
+
+                <!--                <a href="/habitinput" style="text-decoration:none"><p style="font-size: medium;" class="lead">Click To-->
+                <!--                    Configure</p></a>-->
+                {% else %}
+                <h3 style="font-size:larger;">{{ modeh }}</h3>
+                <p style="font-size: medium;" class="lead">EWS</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-xl-2 statis   text-center one" data-bs-toggle="modal" data-bs-target="#mlModal">
+            <div style="height: 90px;" class="box bg-success p-3">
+                <i class="uil-eye"></i>
+                {% if ml_status == 1%}
+                    {% if pred == 0 %} <!-- 0 == healthy -->
+                        <h3 style="font-size:large;">Healthy</h3>
+                    {% else %}
+                        <h3 style="font-size:large;">Unealthy</h3>
+                    {% endif %}
+                {% else %}
+                    <h3 style="font-size:large;">Not Configured</h3>
+                {% endif %}
+                <p style="font-size: medium;" class="lead">Health Category</p>
+            </div>
+        </div>
+    </div>
+
+
+    <section class="statistics  ">
+        <div class=" row row-bottom-margin">
+            {% if latest == None %}
+
+            <div style="width: 230px; margin-right: 15px; margin-left: 12px; margin-bottom: 0px;"
+                 class="box d-flex rounded-2 align-items-center mb-lg-0 p-3">
+                <i style="margin-left:10px;" class="bi bi-droplet fs-2 "></i>
+                <div class="ms-3">
+                    <div class="d-flex align-items-center">
+                        <h3 class="mb-0">N/A</h3> <span class="d-block ms-2">%</span>
+                    </div>
+                    <p class="fs-normal mb-0">Oxygen</p>
+                </div>
+            </div>
+
+
+            <div style="width: 230px; margin-right: 15px; margin-bottom: 0px;"
+                 class="box d-flex rounded-2 align-items-center mb-lg-0 p-3">
+                <i style="margin-left:10px;" class="bi bi-heart-pulse fs-2 "></i>
+                <div class="ms-3">
+                    <div class="d-flex align-items-center">
+                        <h3 class="mb-0">N/A</h3> <span class="d-block ms-2">bpm</span>
+                    </div>
+                    <p class="fs-normal mb-0">Heart Rate</p>
+                </div>
+            </div>
+
+
+            <div style="width: 230px; margin-right: 15px;" class="box d-flex rounded-2 align-items-center p-3">
+                <i style="margin-left:10px;" class="bi bi-thermometer-half fs-2 "></i>
+                <div class="ms-3">
+                    <div class="d-flex align-items-center">
+                        <h3 class="mb-0">N/A</h3> <span class="d-block ms-2">C</span>
+                    </div>
+                    <p class="fs-normal mb-0">Temperature</p>
+                </div>
+            </div>
+
+
+            <div style="width: 230px; margin-right: 15px; margin-bottom: 0px;"
+                 class="box d-flex rounded-2 align-items-center mb-lg-0 p-3">
+                <i class="uil-file fs-2 text-center bg-danger rounded-circle"></i>
+                <div class="ms-3">
+                    <div class="d-flex align-items-center">
+                        <h3 class="mb-0">N/A</h3> <span class="d-block ms-2">mmHg</span>
+                    </div>
+                    <p class="fs-normal mb-0">Systolic BP</p>
+                </div>
+            </div>
+
+
+            <div style="width: 230px; margin-right: 15px; margin-bottom: 0px;"
+                 class="box d-flex rounded-2 align-items-center mb-lg-0 p-3">
+                <i class="uil-file fs-2 text-center bg-danger rounded-circle"></i>
+                <div class="ms-3">
+                    <div class="d-flex align-items-center">
+                        <h3 class="mb-0">N/A</h3> <span class="d-block ms-2">mmHg</span>
+                    </div>
+                    <p class="fs-normal mb-0">Diastolic BP</p>
+                </div>
+            </div>
+            {% else %}
+
+            <div style="width: 230px; margin-right: 15px; margin-left: 12px; margin-bottom: 0px;"
+                 class="box d-flex rounded-2 align-items-center mb-lg-0 p-3">
+                <i style="margin-left:10px;" class="bi bi-droplet fs-2 "></i>
+                <div class="ms-3">
+                    <div class="d-flex align-items-center">
+                        <h3 class="mb-0">{{latest.spo2}}</h3> <span class="d-block ms-2">%</span>
+                    </div>
+                    <p class="fs-normal mb-0">Oxygen</p>
+                </div>
+            </div>
+
+
+            <div style="width: 230px; margin-right: 15px; margin-bottom: 0px;"
+                 class="box d-flex rounded-2 align-items-center mb-lg-0 p-3">
+                <i style="margin-left:10px;" class="bi bi-heart-pulse fs-2 "></i>
+                <div class="ms-3">
+                    <div class="d-flex align-items-center">
+                        <h3 class="mb-0">{{latest.pulse}}</h3> <span class="d-block ms-2">bpm</span>
+                    </div>
+                    <p class="fs-normal mb-0">Heart Rate</p>
+                </div>
+            </div>
+
+
+            <div style="width: 230px; margin-right: 15px;" class="box d-flex rounded-2 align-items-center p-3">
+                <i style="margin-left:10px;" class="bi bi-thermometer-half fs-2 "></i>
+                <div class="ms-3">
+                    <div class="d-flex align-items-center">
+                        <h3 class="mb-0">{{latest.temp}}</h3> <span class="d-block ms-2">C</span>
+                    </div>
+                    <p class="fs-normal mb-0">Temperature</p>
+                </div>
+            </div>
+
+
+            <div style="width: 230px; margin-right: 15px; margin-bottom: 0px;"
+                 class="box d-flex rounded-2 align-items-center mb-lg-0 p-3">
+                <i class="uil-file fs-2 text-center bg-danger rounded-circle"></i>
+                <div class="ms-3">
+                    <div class="d-flex align-items-center">
+                        <h3 class="mb-0">{{latest.sys}}</h3> <span class="d-block ms-2">mmHg</span>
+                    </div>
+                    <p class="fs-normal mb-0">Systolic BP</p>
+                </div>
+            </div>
+
+
+            <div style="width: 230px; margin-right: 15px; margin-bottom: 0px;"
+                 class="box d-flex rounded-2 align-items-center mb-lg-0 p-3">
+                <i class="uil-file fs-2 text-center bg-danger rounded-circle"></i>
+                <div class="ms-3">
+                    <div class="d-flex align-items-center">
+                        <h3 class="mb-0">{{latest.dia}}</h3> <span class="d-block ms-2">mmHg</span>
+                    </div>
+                    <p class="fs-normal mb-0">Diastolic BP</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+
+    <div style="margin-top: 10px;" class="row">
+        <section class="charts">
+            <div class="chart-container p-3">
+                <div id="c1" style="color:white;">Last {{count}} day records</div>
+                <div class="dropdown">
+                    <button style="background-color: #6c4b6d; color:white;"
+                            class="btn btn-sm dropdown-toggle pull-right" type="button" id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        Toggle Graphs
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="">
+                        <li><a class="dropdown-item" onclick="oxygenChart()">Oxygen</a></li>
+                        <li><a class="dropdown-item" onclick="pulseChart()">Heart Rate</a></li>
+                        <li><a class="dropdown-item" onclick="tempChart()">Temperature</a></li>
+                        <li><a class="dropdown-item" onclick="BPChart()">Blood Pressure</a></li>
+                    </ul>
+                </div>
+                <canvas style="background-color: rgb(49, 51, 72); height: 232px; box-sizing: border-box; display: block; width: 928px;"
+                        id="myChart4" width="1856" height="464"></canvas>
+            </div>
+        </section>
+    </div>
+
+</div>
+<!--Chart Scipt-->
+<script>
+                (async () => {
+                    oxygenChart();
+                })();
+                function pulseChart(){
+                if(window.myChart instanceof Chart)
+                {
+                    window.myChart.destroy();
+                }
+                var ctx = document.getElementById("myChart4").getContext('2d');
+                window.myChart = new Chart(ctx, {
+                    type: 'line',
+                    pointBorderColor: "#55bae7",
+                    data: {
+                        labels: [{% for i in record %}'{{i.timeStamp}}',{% endfor %}],
+                        datasets: [{
+                            label: 'Pulse Readings',
+                            backgroundColor: "rgb(46,139,87)",
+                            data: [{% for i in record %} {{i.pulse}},{% endfor %}]
+                            }],
+                        },
+                    options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                        stacked: true,
+                        },
+                        y: {
+                        stacked: true
+                        }
+                    }
+                    }
+                });
+                }
+                function tempChart(){
+                if(window.myChart instanceof Chart)
+                {
+                    window.myChart.destroy();
+                }
+                var ctx = document.getElementById("myChart4").getContext('2d');
+                window.myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: [{% for i in record %}'{{i.timeStamp}}',{% endfor %}],
+                        datasets: [{
+                            label: 'Temperature Readings',
+                            backgroundColor: "rgb(220,20,60)",
+                            data: [{% for i in record %} {{i.temp}},{% endfor %}]
+                            }],
+                        },
+                    options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                        stacked: true,
+                        },
+                        y: {
+                        stacked: true
+                        }
+                    }
+                    }
+                });
+                }
+
+                function BPChart(){
+                if(window.myChart instanceof Chart)
+                {
+                    window.myChart.destroy();
+                }
+                var ctx = document.getElementById("myChart4").getContext('2d');
+                window.myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                    labels: [{% for i in record %}'{{i.timeStamp}}',{% endfor %}],
+                    datasets: [{
+                        label: 'Blood Pressure Reading',
+                        backgroundColor: "#caf270",
+                        data: [{% for i in record %} {{i.sys}},{% endfor %}],
+                        }]
+                    },
+                    options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                        stacked: true,
+                        },
+                        y: {
+                        stacked: true
+                        }
+                    }
+                    }
+                });
+                }
+
+                function oxygenChart(){
+                    if(window.myChart instanceof Chart)
+                    {
+                        window.myChart.destroy();
+                    }
+                    var ctx = document.getElementById("myChart4").getContext('2d');
+                    window.myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                        labels: [{% for i in record %}'{{i.timeStamp}}',{% endfor %}],
+                        datasets: [{
+                            label: 'Oxygen Readings',
+                            backgroundColor: "#4bc0c0",
+                            data: [{% for i in record %} {{i.spo2}},{% endfor %}]
+                            }],
+                        },
+                        options: {
+                        responsive: true
+                        }
+                    });
+                    }
+
+
+</script>
+
+</body>
+</html>

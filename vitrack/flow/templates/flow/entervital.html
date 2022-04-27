@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>View Report</title>
+      <style>
+     .bg-cover {
+            width: 100%;
+            height: 695px;
+            /* background: url("https://source.unsplash.com/7JX0-bfiuxQ/1200x1200") no-repeat center; */
+            /* background-size: cover; */
+            object-fit: cover;
+        }
+        .bg-image {
+            filter: blur(8px);
+            -webkit-filter: blur(3px);
+        }
+        .bg-orange {
+            background-color: #da7253;
+        }
+        .center{
+    position:absolute;
+    height: X px;
+    width: Y px;
+    left:8%;
+    top:50%;
+    margin-top:- X/2 px;
+    margin-left:- Y/2 px;
+    }
+    .circle {
+    background: black;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}
+.tint{
+  filter: blur(3px) sepia(100%) saturate(500%) brightness(80%) hue-rotate(180deg);
+  background: rgba(0, 255, 255, 0.5);
+  width:718px;
+  height:675px;
+  opacity: 0.5;
+}
+ .text-block {
+            position: absolute;
+            bottom: 0;
+            background: rgb(212, 0, 0);
+            background: rgb(218,114,83,0.8);
+            color: #f1f1f1;
+            width: 100%;
+            padding: 20px;
+        }
+        .plus-image {
+            left: 10%;
+            top: 5%;
+            position: absolute;
+            margin-top: -25px;
+            margin-left: -25px;
+        }
+        .centered {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+                .dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #da7253;
+  min-width: 100px;
+<!--  max-height: 100px;-->
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+  right: 10px;
+    left: auto;
+}
+.mycontainer {
+  height: 500px;
+  position: relative;
+
+}
+.vertical-center {
+   margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+#grad1 {
+        height: 100%;
+        background: radial-gradient(ellipse farthest-corner at center top, #f39264 0%, #f2606f 100%);
+<!--         background: linear-gradient(to left, #7D43F7, #5188FB);-->
+        }
+        #grad2 {
+        height: 100%;
+        color: #E0574F;
+        background: #E0574F;
+<!--         background: linear-gradient(#6340C8, #486CCB);-->
+        }
+<!--        .hide {-->
+<!--            display: none;-->
+<!--            }-->
+
+<!--        .myDIV:hover + .hide {-->
+<!--        display: run-in;-->
+<!--        }-->
+.cropped2 {
+    width: 55px; /* width of container */
+    height: 55px; /* height of container */
+    object-fit: cover;
+}
+    </style>
+  </head>
+  <body>
+    {% load static %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-orange">
+        <div class="container-fluid">
+            <!-- <div class="container"> -->
+                <a class="navbar-brand" href="#">
+                  <img src='{% static "flow\icon_new.png" %}' alt="" width="50" height="50">
+                </a>
+              <!-- </div> -->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" style="font-size: large;" aria-current="page" href="/userhome">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" style="font-size: large;" href="/trackcontrol">Track</a>
+              </li>
+                <li class="nav-item">
+                <a class="nav-link" style="font-size: large;" href="/mydoc">My Doctors</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" style="font-size: large;" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Reports
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="/viewreport">View My Reports</a></li>
+                  <li><a class="dropdown-item" href="/uploadreport">Upload a Report</a></li>
+                  <!-- <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li> -->
+                </ul>
+              </li>
+              <!-- <li class="nav-item">
+                <a class="nav-link disabled">Disabled</a>
+              </li> -->
+            </ul>
+            <form method="get" action="/search/" class="d-flex">
+              <input class="form-control me-2" name="search" id="search" type="search" placeholder="Look for a Doctor" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <a class="navbar-brand mx-3" href="">
+                <div class="dropdown">
+                {% if pic != None %}
+                <img src = {{pic.url}} alt="Avatar" class="rounded-circle cropped2" style="width: 55px; height:55px"/>
+                {% else %}
+                {% if gender == "female" %}
+                <img
+                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                alt="Avatar"
+                class="rounded-circle" style="width: 65px;"
+              />
+                {% else %}
+                <img
+                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
+                alt="Avatar"
+                class="rounded-circle" style="width: 65px;"
+              />
+                {% endif %}
+                {% endif %}
+                    <div class="dropdown-content" >
+                  <ul style="list-style-type:none; ">
+                      <p style="color: white">{{request.user.first_name}} {{request.user.last_name}}<p>
+                      <li><strong><hr class="dropdown-divider"></strong></li>
+    <li><a class="dropdown-item" style="color: white" href="/userprofile">My Profile</a></li>
+    <li><a class="dropdown-item" style="color: white" href="#">Change Password</a></li>
+    <li><a class="dropdown-item button" style="color: white" href="/handleLogout/">Logout</a></li>
+  </ul>
+                   </div>
+</div>
+<!--                  <img src='{% static "flow\no_pic.png" %}' alt="avatar" class="rounded-circle" style="width: 65px;">-->
+
+                </a>
+          </div>
+        </div>
+      </nav>
+
+   <section class="vh-100" style="background-color: #508bfc; " id="grad1">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong" style="border-radius: 2rem;">
+          <div class="card-body p-3 text-center">
+
+            <h3 class="mb-5">Enter Your Vital Stats</h3>
+          <form method="post" action="/vitalstore/" >
+            {% csrf_token %}
+            <div class="form-outline mb-4">
+              <input type="number" id="sys" name="sys" class="form-control form-control-lg" />
+              <label class="form-label" for="sys">Systolic Reading (mmHg)</label>
+            </div>
+
+            <div class="form-outline mb-4">
+              <input type="number" id="dia" name="dia" class="form-control form-control-lg" />
+              <label class="form-label" for="dia">Diastolic Reading (mmHg)</label>
+            </div>
+
+            <div class="form-outline mb-4">
+              <input type="number" id="pulse" name="pulse" class="form-control form-control-lg" />
+              <label class="form-label" for="pulse">Pulse Reading (bpm)</label>
+            </div>
+
+            <div class="form-outline mb-4">
+              <input type="number" id="temp" step="0.01" name="temp" class="form-control form-control-lg" />
+              <label class="form-label" for="temp">Temperature Reading (F)</label>
+            </div>
+
+            <div class="form-outline mb-4">
+              <input type="number" id="spo2" name="spo2" class="form-control form-control-lg" />
+              <label class="form-label" for="spo2">Oxygen Reading (%)</label>
+            </div>
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>
