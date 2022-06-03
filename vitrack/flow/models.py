@@ -115,3 +115,14 @@ class habits(models.Model):
 
     def __str__(self):
         return self.name
+
+class querylog(models.Model):
+    query_id = models.AutoField
+    user_email = models.EmailField()
+    query_type = models.TextField(max_length=1000,default="",blank=True)
+    issue = models.TextField(max_length=1000,default="",blank=True)
+    problem_domain = models.TextField(max_length=1000,default="",blank=True)
+    status = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user_email + ' Status: ' + str(self.status)

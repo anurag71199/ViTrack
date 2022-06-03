@@ -11,6 +11,7 @@ from flow.models import patientreport
 from flow.models import vital
 from flow.models import patdoc
 from flow.models import habits
+from flow.models import querylog
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -1004,4 +1005,54 @@ def changepass(request):
             gender = p.gender
     return render(request, 'flow/userpicupload.html', {
         "gender": gender, "pic": pic
+    })
+
+def chatrep(request):
+    current_user = request.user
+    user_email = current_user.email
+    if request.GET.get('category') == 'problem':
+        probcategory = request.GET.get('probcategory')
+        if probcategory == 'docprob':
+            issue = request.GET.get('docproblog')
+            domain = request.GET.get('docprobname')
+        elif probcategory == 'webprob':
+            issue = request.GET.get('webproblog')
+            domain = 'Website Problem'
+        elif probcategory == 'otherprob':
+            issue = request.GET.get('otherproblog')
+            domain = request.GET.get('otherprobdomain')
+        query_instance = querylog.objects.create(query_type=probcategory,issue=issue,user_email=user_email,problem_domain=domain,status=False)
+    pic = None
+    gender = None
+    try:
+        for p in userpic.objects.raw('SELECT 1 id,email,img FROM flow_userpic'):
+            # print(p.email)
+            if current_user.email == p.email:
+                pic = p.img
+                # print("here")
+                break
+    except userpic.DoesNotExist:
+        pic = None
+    # print(pic)
+    # print(current_user.email)
+    for p in patient.objects.raw('SELECT 1 id,email,gender FROM flow_patient'):
+        if current_user.email == p.email:
+            gender = p.gender
+    return render(request, 'flow/userhome.html', {"gender": gender, "pic": pic})
+
+def improve(request):
+    current_user = request.user
+    pic = None
+    try:
+        for p in userpic.objects.raw('SELECT 1 id,email,img FROM flow_userpic'):
+            if current_user.email == p.email:
+                pic = p.img
+                break
+    except userpic.DoesNotExist:
+        pic = None
+    for p in patient.objects.raw('SELECT 1 id,email,gender FROM flow_patient'):
+        if current_user.email == p.email:
+            gender = p.gender
+    return render(request, 'flow/improve.html', {
+        'pic': pic, 'gender': gender,
     })

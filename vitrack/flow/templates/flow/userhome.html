@@ -140,6 +140,17 @@
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
     </style>
     <script src="https://kit.fontawesome.com/fb8985e77c.js" crossorigin="anonymous"></script>
 </head>
@@ -214,7 +225,8 @@
                             <hr class="dropdown-divider">
                             </strong></li>
                             <li><a class="dropdown-item" style="color: white" href="/userprofile">My Profile</a></li>
-                            <li><a class="dropdown-item" style="color: white" href="/reset_password">Change Password</a></li>
+                            <li><a class="dropdown-item" style="color: white" href="/reset_password">Change Password</a>
+                            </li>
                             <li><a class="dropdown-item button" style="color: white" href="/handleLogout/">Logout</a>
                             </li>
                         </ul>
@@ -248,49 +260,154 @@
             Professionals</a></h4>
     </div>
     <div class="col">
-        <i class="fa-solid fa-laptop-medical fa-3x"></i>
-        <h4 style="margin-top: 0.25em;">Learn To Improve</h4>
+        <a style="text-decoration:none; color:white" href="/improve" target="_blank"><i class="fa-solid fa-laptop-medical fa-3x"></i></a>
+        <h4 style="margin-top: 0.25em;"><a style="text-decoration:none; color:white" href="/improve" target="_blank">Learn To Improve</a></h4>
     </div>
 </div>
 <!--    chatbot-->
 
 <div class="chat_icon">
-	<img src="{% static 'flow/chatbot.png'%}" style="width:130px;height:130px;">
+    <img src="{% static 'flow/chatbot.png'%}" style="width:130px;height:130px;">
 </div>
 
+<!--chatbot-->
 <div class="chat_box">
-	<div class="my-conv-form-wrapper">
-		<form action="" method="GET" class="hidden">
+    <div class="my-conv-form-wrapper">
+        <form action="/chatrep/" method="GET" class="hidden">
 
-      <select data-conv-question="Hi! I'm your ViTrack Assistant. How may I assist you?" name="category">
-        <option value="WebDevelopment">ABC</option>
-        <option value="DigitalMarketing">XYZ</option>
-      </select>
+            <select data-conv-question="Hi! I'm your ViTrack Assistant. How may I assist you?" name="category">
+                <option value="explore">Explore the website</option>
+                <option value="problem">Report a problem</option>
+            </select>
 
-      <div data-conv-fork="category">
-        <div data-conv-case="WebDevelopment">
-          <input type="text" name="domainName" data-conv-question="You can find the details here: blah">
-        </div>
-        <div data-conv-case="DigitalMarketing" data-conv-fork="first-question2">
-          <input type="text" name="companyName" data-conv-question="Please, enter your company name">
-        </div>
-      </div>
+            <div data-conv-fork="category">
+                <div data-conv-case="explore">
+                    <select data-conv-question="We here at ViTrack, have a lot to offer you! Choose the option you would like to explore:<br>
+                    1) What Can I Do?<br>2) Where can I find Doctors?<br>3) Where can I find my Vitals Dashboard?"
+                            name="explorecategory">
+                        <option value="getstart">Option-1</option>
+                        <option value="finddoc">Option-2</option>
+                        <option value="dash">Option-3</option>
+                    </select>
+                    <!--                    <input type="text" name="companyName" data-conv-question="Please, enter your company name">-->
+                </div>
+                <div data-conv-case="problem">
+                    <select data-conv-question="What kind of problem are you facing?" name="probcategory">
+                        <option value="webprob">Website Related</option>
+                        <option value="docprob">Doctor Related</option>
+                        <option value="otherprob">Other</option>
+                    </select>
+                    <!--          <input type="text" name="domainName" data-conv-question="You can find the details here: blah">-->
+                </div>
+            </div>
 
-      <input type="text" name="name" data-conv-question="Please, Enter your name">
+            <div data-conv-fork="explorecategory">
+                <div data-conv-case="getstart">
+                    <input type="text"
+                           data-conv-question="In order to know the features of this portal and what all you can do with it,
+                           check out the <br><a href='/getstarted'><strong>Get Started</strong></a> Page!"
+                           data-no-answer="true">
+                    <input type="text"
+                           data-conv-question="You can interact with me, Your ViTrack Assistant, anytime you want by hitting refresh on your homepage!"
+                           data-no-answer="true">
+                    <select data-conv-question="Hit the button to refresh and talk to me again">
+                        <option value="submit">Refresh</option>
+                    </select>
+                    <!--          <input type="text" name="domainName" data-conv-question="You can find the details here: blah">-->
+                </div>
+                <div data-conv-case="finddoc">
+                    <input type="text"
+                           data-conv-question="You can interact with Medical Professionals and avail their valuable feedback on your uploaded medical reports.
+                           <br><br>To find doctors, you can use the search bar above to find doctors by Name, Designation, Speciality or Hospital.
+                           <br><br>You can also visit the <a href='/alldocs'><strong>Explore Medical Professionals</strong></a> Page to find qualified Doctors
+                            who are registered with this platform and pick the best one for you!"
+                           data-no-answer="true">
+                    <input type="text"
+                           data-conv-question="You can interact with me, Your ViTrack Assistant, anytime you want by hitting refresh on your homepage!"
+                           data-no-answer="true">
+                    <select data-conv-question="Hit the button to refresh and talk to me again">
+                        <option value="submit">Refresh</option>
+                    </select>
+                </div>
+                <div data-conv-case="dash">
+                    <input type="text"
+                           data-conv-question="We offer our users a professional dashboard which visualises your vital stat metrics
+                           in the form of graphs and also uses the concepts of <strong>Early Warning System Score</strong> and <Strong>
+                           Machine Learning Algorithms</strong> to help you better monitor and analyse your health.
+                           <br><br>Visit your <a href='/dashboard'><strong>Dashboard</strong></a> and explore its features!"
+                           data-no-answer="true">
+                    <input type="text"
+                           data-conv-question="You can interact with me, Your ViTrack Assistant, anytime you want by hitting refresh on your homepage!"
+                           data-no-answer="true">
+                    <select data-conv-question="Hit the button to refresh and talk to me again">
+                        <option value="submit">Refresh</option>
+                    </select>
+                </div>
+            </div>
 
-      <input type="text" data-conv-question="Hi {name}, <br> It's a pleasure to meet you." data-no-answer="true">
 
-      <input data-conv-question="Enter your e-mail" data-pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" type="email" name="email" required placeholder="What's your e-mail?">
+            <div data-conv-fork="probcategory">
+                <div data-conv-case="webprob">
+                    <input type="text" name="webproblog"
+                           data-conv-question="Tell me about your problem and I will convey it to our team.">
+                    <input type="text"
+                           data-conv-question="I am sorry to hear that. Our team will get in touch with you and resolve this issue as soon as we can. Thank you for being a part of the ViTrack Family and help us improve!"
+                           data-no-answer="true">
+                    <input type="text"
+                           data-conv-question="You can interact with me, Your ViTrack Assistant, anytime you want by hitting refresh on your homepage!"
+                           data-no-answer="true">
+                    <select data-conv-question="Hit the button below to submit your request">
+                        <option value="submit">Submit</option>
+                    </select>
+                    <!--          <input type="text" name="domainName" data-conv-question="You can find the details here: blah">-->
+                </div>
+                <div data-conv-case="docprob">
+                    <input type="text" name="docprobname" data-conv-question="Enter the Doctor's Full Name">
+                    <input type="text" name="docproblog"
+                           data-conv-question="Tell me the issue you are facing with Dr.{docprobname}">
+                    <input type="text"
+                           data-conv-question="I am sorry to hear that. Our team will get in touch with you and resolve this issue as soon as we can. Thank you for being a part of the ViTrack Family and help us improve!"
+                           data-no-answer="true">
+                    <input type="text"
+                           data-conv-question="You can interact with me, Your ViTrack Assistant, anytime you want by hitting refresh on your homepage!"
+                           data-no-answer="true">
+                    <select data-conv-question="Hit the button below to submit your request">
+                        <option value="submit">Submit</option>
+                    </select>
+                </div>
+                <div data-conv-case="otherprob">
+                    <input type="text" name="otherprobdomain"
+                           data-conv-question="What kind of a problem are you facing? (Type the problem domain in a few words)">
+                    <input type="text" name="otherproblog"
+                           data-conv-question="Okay. Describe your problem in detail and I will convey it to our team.">
+                    <input type="text"
+                           data-conv-question="I am sorry to hear that. Our team will get in touch with you and resolve this issue as soon as we can. Thank you for being a part of the ViTrack Family and help us improve!"
+                           data-no-answer="true">
+                    <input type="text"
+                           data-conv-question="You can interact with me, Your ViTrack Assistant, anytime you want by hitting refresh on your homepage!"
+                           data-no-answer="true">
+                    <select data-conv-question="Hit the button below to submit your request">
+                        <option value="submit">Submit</option>
+                    </select>
+                </div>
+            </div>
 
-      <select data-conv-question="Please Conform">
-        <option value="Yes">Conform</option>
-      </select>
+            <!--            <input type="text" name="name" data-conv-question="Please, Enter your name">-->
 
-  	</form>
-	</div>
+            <!--            <input type="text" data-conv-question="Hi {name}, <br> It's a pleasure to meet you." data-no-answer="true">-->
+
+            <!--            <input data-conv-question="Enter your e-mail"-->
+            <!--                   data-pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"-->
+            <!--                   type="email" name="email" required placeholder="What's your e-mail?">-->
+
+            <!--            <select data-conv-question="Please Conform">-->
+            <!--                <option value="Yes">Conform</option>-->
+            <!--            </select>-->
+
+        </form>
+    </div>
 </div>
 <!-- ChatBot end -->
-
 
 
 <script type="text/javascript">
@@ -307,6 +424,17 @@
 			document.getElementById('port_pop_pic_bg').classList.remove("active")
 			document.getElementById('port_pop_pic').classList.remove("active")
 	})
+
+
+
+
+
+
+
+
+
+
+
 </script>
 
 <!-- Optional JavaScript; choose one of the two! -->

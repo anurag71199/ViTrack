@@ -504,6 +504,12 @@ div.one:hover {
   opacity:80%
 }
 
+
+
+
+
+
+
     </style>
 </head>
 <body style="background-color: #504a65; overflow: hidden;">
@@ -617,70 +623,118 @@ div.one:hover {
             </div>
         </div>
         <!-- content Modal -->
-                <div class="modal fade" id="learnModal" tabindex="-1" aria-labelledby="learnModalLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="learnModalLabel" style="color:black;">What is EWS?</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body" style="color:black; text-align:left;">
-                                EWS info content --
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                </div>
-                        </div>
+        <div class="modal fade" id="learnModal" tabindex="-1" aria-labelledby="learnModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="learnModalLabel" style="color:black;">What is EWS?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="color:black; text-align:left;">
+                        Our <strong>Early Warning System</strong> is an adopted system based on the National Early
+                        Warning System (NEWS) Parameters. The NEWS scale classifies few vital stat parameters and
+                        generates a score which helps us categorize the patient on the basis of urgency of response.
+                        This score is helpful when it comes to monitoring medical patients who are taken care of at home
+                        and not the hospital.<br>
+                        The EWS takes in values of Systolic and Diastolic Blood Pressure, Temperature, Oxygen Saturation
+                        and Heart Rate parameters and produces the health score. This score acts as an alert system to
+                        notify medical emergency. The
+                        classification can be observed as:
+                        <table style="text-align:center" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th style="text-align:center">NEWS Score</th>
+                                <th style="text-align:center">Response</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td style="text-align:center">0</td>
+                                <td style="text-align:center">No immediate risk</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center">1-4</td>
+                                <td style="text-align:center">Slight Overall Risk</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center">3 in One Parameter</td>
+                                <td style="text-align:center">Intensive Care</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center">5-6</td>
+                                <td style="text-align:center">Urgent Response</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center">7 and Above</td>
+                                <td style="text-align:center">Emergency Response</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
+            </div>
+        </div>
 
 
         <!-- ml content Modal -->
-                <div class="modal fade" id="mlModal" tabindex="-1" aria-labelledby="mlModalLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="mlModalLabel" style="color:black;">Machine Learning Model</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body" style="color:black; text-align:left;">
-                                ML info content --
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                </div>
-                        </div>
+        <div class="modal fade" id="mlModal" tabindex="-1" aria-labelledby="mlModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="mlModalLabel" style="color:black;">Machine Learning Model</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="color:black; text-align:left;">
+                        Our Machine Learning Model is based on the <strong>Random Forest Classifier</strong>, which
+                        takes in the input as lifestyle habit parameters like exercising, alcohol consumption, sleeping
+                        and smoking habits and comes up with the output of the categorization of the user as Healthy or
+                        Not Healthy.<br>
+                        The model was trained by making use of the vital statistics of 50 participants and using the
+                        NEWS system to develop a health score. The habit parameters were then used to predict and
+                        classify the given patients into a binary classification of Healthy and Not Healthy using the
+                        random forest algorithm.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
+            </div>
+        </div>
 
 
         <!-- configuring ews Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel" style="color:black;">Configuring EWS</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body" style="color:black; text-align:left;">
-                                Our Early Warning Score help us categorize your health on the basis of your Vital Stat
-                                entries. In order to configure this feature, you need to add atleast 30 vital stat
-                                entries (currently you have {{count}}) in our system, after which we will give you your score.
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-warning" onclick="window.location=/entervital/">Enter Vitals</button>
-                            </div>
-                        </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel" style="color:black;">Configuring EWS</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="color:black; text-align:left;">
+                        Our Early Warning Score help us categorize your health on the basis of your Vital Stat
+                        entries. In order to configure this feature, you need to add atleast 30 vital stat
+                        entries (currently you have {{count}}) in our system, after which we will give you your score.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-warning" onclick="window.location=/entervital/">Enter
+                            Vitals
+                        </button>
                     </div>
                 </div>
-        <div class="col-xl-2 statis text-center row-bottom-margin one" data-bs-toggle="modal" data-bs-target="#learnModal">
+            </div>
+        </div>
+        <div class="col-xl-2 statis text-center row-bottom-margin one" data-bs-toggle="modal"
+             data-bs-target="#learnModal">
             <div style="height: 90px;" class="box bg-primary p-3">
                 <i class="uil-eye"></i>
                 {% if ewsflag == 0 %}
@@ -702,14 +756,15 @@ div.one:hover {
             <div style="height: 90px;" class="box bg-success p-3">
                 <i class="uil-eye"></i>
                 {% if ml_status == 1%}
-                    {% if pred == 0 %} <!-- 0 == healthy -->
-                        <h3 style="font-size:large;">Healthy</h3>
-                    {% else %}
-                        <h3 style="font-size:large;">Unealthy</h3>
-                    {% endif %}
+                {% if pred == 0 %} <!-- 0 == healthy -->
+                <h3 style="font-size:large;">Healthy</h3>
                 {% else %}
-                    <h3 style="font-size:large;">N/A</h3>
-                    <a href="/habitinput" style="text-decoration:none"><p style="font-size: medium;" class="lead">Click To Configure</p></a>
+                <h3 style="font-size:large;">Unealthy</h3>
+                {% endif %}
+                {% else %}
+                <h3 style="font-size:large;">N/A</h3>
+                <a href="/habitinput" style="text-decoration:none"><p style="font-size: medium;" class="lead">Click To
+                    Configure</p></a>
                 {% endif %}
                 <p style="font-size: medium;" class="lead">Health Category</p>
             </div>
@@ -982,6 +1037,12 @@ div.one:hover {
                         }
                     });
                     }
+
+
+
+
+
+
 
 
 </script>

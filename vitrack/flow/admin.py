@@ -9,6 +9,7 @@ from .models import patientreport
 from .models import vital
 from .models import patdoc
 from .models import habits
+from .models import querylog
 
 admin.site.register(patient)
 admin.site.register(doctor)
@@ -18,3 +19,4 @@ admin.site.register(patientreport)
 admin.site.register(vital)
 admin.site.register(patdoc)
 admin.site.register(habits)
+admin.site.register(querylog)
